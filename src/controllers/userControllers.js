@@ -16,6 +16,12 @@ const userControllers = {
     const allUsers = await userService.findAll();
     return res.status(200).json(allUsers);
   },
+  findByPk: async (req, res) => {
+    const { id } = req.params;
+    console.log('controller', id);
+    const findUser = await userService.findByPk(id);
+    return res.status(200).json(findUser);
+  },
 };
 
 module.exports = userControllers;
