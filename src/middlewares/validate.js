@@ -31,7 +31,6 @@ const validade = {
 
   validateName: (req, _res, next) => {
     const { name } = req.body;
-    console.log('validateeeeee', name);
     if (!name) {
       throw new CustomError(
         400,
@@ -70,6 +69,14 @@ const validade = {
   validateLogin: (req, _res, next) => {
     const { email, password } = req.body;
     if (!email || !password) {
+      throw new CustomError(400, 'missing', 'Some required fields are missing');
+    }
+    next();
+  },
+
+  validatePost: (req, _res, next) => {
+    const { title, content, categoryIds } = req.body;
+    if (!title || !content || !categoryIds) {
       throw new CustomError(400, 'missing', 'Some required fields are missing');
     }
     next();

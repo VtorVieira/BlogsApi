@@ -11,14 +11,15 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.use('/categories', routers.categoriesRouter);
-
 app.use('/login', routers.loginRouter);
 
 app.use('/user', routers.userRouter);
 
+app.use('/categories', routers.categoriesRouter);
+
+app.use('/post', routers.postRouter);
+
 app.use((err, _req, res, _next) => {
-  console.log('to aqui!!!!!!!!!!!!', err.message);
   res.status(err.status).json({ message: err.message });
 });
 

@@ -15,11 +15,9 @@ const userService = {
     return allUsers;
   },
   findByPk: async (id) => {
-    console.log('req.params!!!!!!!!!!', id);
     const findUser = await User.findByPk(id, {
       attributes: { exclude: ['password'] },
     });
-    console.log('to aqui!!!', findUser);
     if (findUser === null) throw new CustomError(404, 'notFound', 'User does not exist');
     return findUser;
   },

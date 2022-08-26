@@ -3,7 +3,6 @@ const categoriesService = require('../services/categoriesService');
 const categoriesControllers = {
   createCategory: async (req, res) => {
     const { name } = req.body;
-    console.log('controllersssssss', name);
     const categoryCreated = await categoriesService.createCategory({ name });
     return res.status(201).json(categoryCreated);
   },

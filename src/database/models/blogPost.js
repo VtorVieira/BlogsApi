@@ -1,3 +1,5 @@
+const { NOW } = require("sequelize");
+
 module.exports = (sequelize, DataTypes) => {
   const BlogPost = sequelize.define('BlogPost', {
     id: {
@@ -20,18 +22,20 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: true,
     },
     published: {
-      type: DataTypes.DATE
+      type: DataTypes.DATE,
+      defaultValue: NOW(),
     },
     updated: {
       type: DataTypes.DATE,
+      defaultValue: NOW(),
     }
   },
     {
-      timestamps: true,
+      timestamps: false,
     });
 
   BlogPost.associate = (models) => {
-    BlogPost.belongsTo(models.User, { foreignKey: 'userId', as: 'User' });
+    BlogPost.belongsTo(models.User, { foreignKey: 'userId', as: 'user' });
   };
   return BlogPost;
 };
