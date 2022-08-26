@@ -8,9 +8,8 @@ const loginControllers = {
   getToken: async (req, res) => {
     const { email } = req.body;
     const token = jwt.sign({ email }, JWT_SECRET, {
-      expiresIn: '1m',
+      expiresIn: '1d',
     });
-    console.log(token);
     await loginService.checkEmail({ email });
     return res.status(200).json({ token });
   },
