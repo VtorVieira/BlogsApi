@@ -12,6 +12,10 @@ const userControllers = {
     await userService.createUser({ displayName, email, password, image });
     return res.status(201).json({ token });
   },
+  findAll: async (_req, res) => {
+    const allUsers = await userService.findAll();
+    return res.status(200).json(allUsers);
+  },
 };
 
 module.exports = userControllers;

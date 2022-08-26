@@ -9,10 +9,13 @@ const validade = {
     if (!authorization) {
       throw new CustomError(401, 'notFound', 'Token not found');
     } else {
-      const token = jwt.verify(authorization, JWT_SECRET);
-      if (!token) throw new CustomError(401, 'expired', 'Expired or invalid token');
+      try {
+        jwt.verify(authorization, JWT_SECRET);
+        next();
+      } catch (err) {
+        throw new CustomError(401, 'expired', 'Expired or invalid token');
+      }
     }
-    next();
   },
 
   validateDisplayName: (req, _res, next) => {

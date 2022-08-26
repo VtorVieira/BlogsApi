@@ -6,10 +6,12 @@ const validate = require('../middlewares/validate');
 const userRouter = Router();
 
 userRouter.post('/',
-  // validate.validateToken,
   validate.validateDisplayName,
   validate.validateEmail,
   validate.validatePassword,
   userControllers.createUser);
 
+userRouter.get('/',
+  validate.validateToken,
+  userControllers.findAll);
 module.exports = userRouter;

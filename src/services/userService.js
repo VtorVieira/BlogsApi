@@ -8,6 +8,12 @@ const userService = {
     const createUser = await User.create({ displayName, email, password, image });
     return createUser;
   },
+  findAll: async () => {
+    const allUsers = await User.findAll({
+      attributes: { exclude: ['password'] },
+    });
+    return allUsers;
+  },
 };
 
 module.exports = userService; 
