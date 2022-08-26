@@ -13,6 +13,8 @@ app.get('/', (_request, response) => {
 
 app.use('/login', routers.loginRouter);
 
+app.use('/user', routers.userRouter);
+
 app.use((err, _req, res, _next) => {
   res.status(err.status).json({ message: err.message });
 });
