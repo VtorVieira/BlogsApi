@@ -15,7 +15,10 @@ app.use('/login', routers.loginRouter);
 
 app.use('/user', routers.userRouter);
 
+app.use('/categories', routers.categoriesRouter);
+
 app.use((err, _req, res, _next) => {
+  console.log('to aqui!!!!!!!!!!!!', err.message);
   res.status(err.status).json({ message: err.message });
 });
 

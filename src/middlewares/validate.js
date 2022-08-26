@@ -8,13 +8,12 @@ const validade = {
     const { authorization } = req.headers;
     if (!authorization) {
       throw new CustomError(401, 'notFound', 'Token not found');
-    } else {
-      try {
-        jwt.verify(authorization, JWT_SECRET);
-        next();
-      } catch (err) {
-        throw new CustomError(401, 'expired', 'Expired or invalid token');
-      }
+    }
+    try {
+      jwt.verify(authorization, JWT_SECRET);
+      next();
+    } catch (err) {
+      throw new CustomError(401, 'expired', 'Expired or invalid token');
     }
   },
 
@@ -25,6 +24,19 @@ const validade = {
         400,
         'length',
         '"displayName" length must be at least 8 characters long',
+        );
+    }
+    next();
+  },
+
+  validateName: (req, _res, next) => {
+    const { name } = req.body;
+    console.log('validateeeeee', name);
+    if (!name) {
+      throw new CustomError(
+        400,
+        'required',
+        '"name" is required',
         );
     }
     next();
