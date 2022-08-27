@@ -22,6 +22,12 @@ const postControllers = {
     const listOneBlogPost = await postService.findOneBlogPost(id);
     return res.status(200).json(listOneBlogPost);
   },
+  findByNameBlogPost: async (req, res) => {
+    const { q } = req.query;
+    console.log('controller', q);
+    const listByNameBlogPost = await postService.findByNameBlogPost(q);
+    return res.status(200).json(listByNameBlogPost);
+  },
 };
 
 module.exports = postControllers;

@@ -1,4 +1,5 @@
 // const CustomError = require('../../errors/CustomError');
+const { Op } = require('sequelize');
 const CustomError = require('../../errors/CustomError');
 const { BlogPost, Category, User } = require('../database/models');
 
@@ -40,6 +41,27 @@ const postService = {
       throw new CustomError(404, 'notFound', 'Post does not exist');
     }
     return oneBlogs;
+  },
+
+  findByNameBlogPost: async (q) => {
+    if (q === '') {
+      const all = await BlogPost.findAll({
+        include: [ 
+          { model: User, as: 'user', attributes: { exclude: ['password'] } },
+          { model: Category, as: 'categories', through: { attributes: [] } },
+        ],
+      });
+      return all;
+    }
+    const getByNameBlogs = await BlogPost.findAll({ where: {
+      [Op.or]: [{ title: { [Op.like]: q } }, { content: { [Op.like]: q } }],
+    },
+      include: [
+        { model: User, as: 'user', attributes: { exclude: ['password'] } },
+        { model: Category, as: 'categories', through: { attributes: [] } },
+      ],
+    });
+    return getByNameBlogs;
   },
 
   getId: async (email) => {
