@@ -21,29 +21,47 @@ const postService = {
     return allBlogs;
   },
 
-  // findAll: async () => {
-  //   const allBlogs = await BlogPost.findAll();
-  //   return allBlogs;
-  // },
+  findOneBlogPost: async (id) => {
+    const oneBlogs = await BlogPost.findOne({ where: { id },
+      include: [
+        {
+          model: User,
+          as: 'user',
+          attributes: { exclude: ['password'] },
+        },
+        {
+          model: Category,
+          as: 'categories',
+          through: { attributes: [] },
+        },
+      ],
+    });
+    if (!oneBlogs) {
+      throw new CustomError(404, 'notFound', 'Post does not exist');
+    }
+    return oneBlogs;
+  },
 
-  createBlogPost: async ({ title, content, categoryIds }) => {
-    console.log('Passo 1: recebendo', { title, content, categoryIds });
+  getId: async (email) => {
+    console.log('gggggggggget', email);
+    const id = await User.findOne({ where: { email } });
+    return id;
+  },
 
+  createBlogPost: async ({ title, content, categoryIds, email }) => {
+    console.log('to aqui!!!!!!!!!!!!!!!');
     const validation = await Promise.all(
       categoryIds.map((ids) => (Category.findByPk(ids))),
       );
 
-    console.log('Passo 2: retorno do map', validation);
-
     validation.forEach((category) => {
-      console.log('Passo 3: retorno do forEach', category);
       if (!category) {
         throw new CustomError(400, 'notFound', '"categoryIds" not found');
       }
     });
-  const retorno = await BlogPost.bulkCreate([{ title, content }]);
-  console.log('Passo 4: criando registo do BD', retorno);
-  // const allBlogs = await BlogPost.findAll();
+  const userId = await BlogPost.getId(email);
+  console.log('uuuuuuuuuuuuuuser', userId);
+  const retorno = await BlogPost.bulkCreate([{ title, content, userId }]);
   // const allBlogs = await BlogPost.findByPk(retorno[0].dataValues.id);
 
   return retorno[0].dataValues;
